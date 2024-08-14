@@ -1,10 +1,13 @@
 --[[
 	Archetype setcode constants list (akin to common card names).
 	Includes every archetype that's being used in official card scripts.
-
+	
 	Notes:
 - To be formatted, probably alphabetically while keeping sub-archetypes with the original.
 
+- 0x67 Iron (unused, non-existent archetype, アイアン, 9 OCG cards include it in their names)
+- 0x68 Tin (unused, non-existent archetype, ブリキ, 3 OCG cards include it in their names)
+- 0x6c Lightray (unused, non-existent archetype, ライトレイ, 6 OCG cards include it in their names)
 - 0x8c Druid (unused, non-existent archetype, ドルイド, 4 OCG cards include it in their names)
 
 - 0x106d Djinn of Rituals (unused sub-archetype of "Djinn")
@@ -19,7 +22,6 @@ SET_GENEX                         = 0x2
 SET_R_GENEX                       = 0x1002
 SET_GENEX_ALLY                    = 0x2002
 SET_HORUS                         = 0x3
-SET_HORUS_BLACK_FLAME_DRAGON      = 0x1003
 SET_AMAZONESS                     = 0x4
 SET_ARCANA_FORCE                  = 0x5
 SET_DARK_WORLD                    = 0x6
@@ -53,7 +55,6 @@ SET_BES                           = 0x15
 SET_ROID                          = 0x16
 SET_VEHICROID                     = 0x1016
 SET_SPEEDROID                     = 0x2016
-SET_SYNCHRO                       = 0x17
 SET_SYNCHRON                      = 0x1017
 SET_SYNCHRO_DRAGON                = 0x2017
 SET_CLOUDIAN                      = 0x18
@@ -66,8 +67,7 @@ SET_KOAKI_MEIRU                   = 0x1d
 SET_CHRYSALIS                     = 0x1e
 SET_NEO_SPACIAN                   = 0x1f
 SET_SHIEN                         = 0x20
-SET_EARTHBOUND                    = 0x21
-SET_EARTHBOUND_IMMORTAL           = 0x1021
+SET_EARTHBOUND_IMMORTAL           = 0x21
 SET_JURRAC                        = 0x22
 SET_MALEFIC                       = 0x23
 SET_SCRAP                         = 0x24
@@ -90,7 +90,6 @@ SET_ASSAULT_BLACKWING             = 0x1033
 SET_CRYSTAL                       = 0x34
 SET_CRYSTAL_BEAST                 = 0x1034
 SET_ULTIMATE_CRYSTAL              = 0x2034
-SET_ADVANCED_CRYSTAL_BEAST        = 0x5034
 SET_FABLED                        = 0x35
 SET_MACHINA                       = 0x36
 SET_MIST_VALLEY                   = 0x37
@@ -135,7 +134,6 @@ SET_VENOM                         = 0x50
 SET_STARVING_VENOM                = 0x1050
 SET_GADGET                        = 0x51
 SET_GUARDIAN                      = 0x52
-SET_GATE_GUARDIAN                 = 0x1052
 SET_CONSTELLAR                    = 0x53
 SET_GAGAGA                        = 0x54
 SET_PHOTON                        = 0x55
@@ -174,7 +172,6 @@ SET_GEARGIANO                     = 0x1072
 SET_XYZ                           = 0x73
 SET_CXYZ                          = 0x1073
 SET_XYZ_DRAGON                    = 0x2073
-SET_ARMORED_XYZ                   = 0x4073
 SET_MERMAIL                       = 0x74
 SET_ABYSS                         = 0x75
 SET_HERALDIC_BEAST                = 0x76
@@ -182,9 +179,7 @@ SET_ATLANTEAN                     = 0x77
 SET_NIMBLE                        = 0x78
 SET_FIRE_FIST                     = 0x79
 SET_NOBLE_KNIGHT                  = 0x107a
-SET_INFERNOBLE_KNIGHT             = 0x507a
 SET_NOBLE_ARMS                    = 0x207a
-SET_INFERNOBLE_ARMS               = 0x607a
 SET_GALAXY                        = 0x7b
 SET_GALAXY_EYES                   = 0x107b
 SET_GALAXY_EYES_TACHYON_DRAGON    = 0x307b
@@ -278,7 +273,7 @@ SET_GAIA_THE_FIERCE_KNIGHT        = 0xbd
 SET_MONARCH                       = 0xbe
 SET_CHARMER                       = 0xbf
 SET_POSSESSED                     = 0xc0
-SET_FAMILIAR_POSSESSED            = 0x10c0
+SET_FAMILIAR_POSSESSED            = 0x10cf
 SET_PSY_FRAME                     = 0xc1
 SET_PSY_FRAMEGEAR                 = 0x10c1
 SET_POWER_TOOL                    = 0xc2
@@ -352,8 +347,8 @@ SET_SUPREME_KING_GATE             = 0x10f8
 SET_SUPREME_KING_DRAGON           = 0x20f8
 SET_TRUE_DRACO_KING               = 0xf9
 SET_PHANTASM_SPIRAL               = 0xfa
-SET_TRICKSTAR                     = 0xfb
-SET_GOUKI                         = 0xfc
+SET_GOUKI                         = 0xfb
+SET_TRICKSTAR                     = 0xfc
 SET_WORLD_CHALICE                 = 0xfd
 SET_WORLD_LEGACY                  = 0xfe
 SET_CLEAR_WING                    = 0xff
@@ -469,7 +464,6 @@ SET_WAR_ROCK                      = 0x161
 SET_MATERIACTOR                   = 0x162
 SET_OGDOADIC                      = 0x163
 SET_SOLFACHORD                    = 0x164
-SET_GRANSOLFACHORD                = 0x1164
 SET_URSARCTIC                     = 0x165
 SET_DESPIA                        = 0x166
 SET_MAGIKEY                       = 0x167
@@ -509,39 +503,11 @@ SET_WINGMAN                       = 0x185
 SET_DOODLE_BEAST                  = 0x1186
 SET_DOODLEBOOK                    = 0x2186
 SET_G_GOLEM                       = 0x187
-SET_RAINBOW_BRIDGE                = 0x188
-SET_BYSTIAL                       = 0x189
 SET_GHOTI                         = 0x18b
-SET_KASHTIRA                      = 0x18a
-SET_GOLD_PRIDE                    = 0x193
-SET_KOALA                         = 0x67
-SET_KANGAROO                      = 0x68
+--Currently unreleased in the TCG, the official English name is unknown
+SET_BRIDGE                        = 0x188
+SET_BYSSTED                       = 0x189
+SET_KSHATRI_LA                    = 0x18a
 SET_RESCUE_ACE                    = 0x18c
-SET_PURRELY                       = 0x18d
+SET_PURERY                        = 0x18d
 SET_MIKANKO                       = 0x18e
-SET_AQUAMIRROR                    = 0x18f
-SET_FIREWALL                      = 0x190
-SET_MANNADIUM                     = 0x191
-SET_NEMLERIA                      = 0x192
-SET_LABYRINTH_WALL                = 0x194
-SET_FAVORITE                      = 0x195
-SET_VANQUISH_SOUL                 = 0x196
-SET_NOUVELLES                     = 0x197
-SET_RECIPE                        = 0x198
-SET_HELIOS                        = 0x6c
-SET_VISAS                         = 0x199
-SET_COUNTER                       = 0x200
-SET_BATTLIN_BOXING                = 0x201
-SET_TISTINA                       = 0x208
---Currently unreleased in the TCG, the official English name is unconfirmed
-SET_MEMENTO                       = 0x19a
-SET_CENTURION                     = 0x19b
-SET_VALMONICA                     = 0x19c
-SET_VEDA                          = 0x202
-SET_DIABELLESTARR                 = 0x203
-SET_SINFUL_SPOILS                 = 0x204
-SET_SNAKE_EYE                     = 0x205
-SET_PATISSCIEL                    = 0x206
-SET_HEART                         = 0x207
---Pre-release archetypes
-SET_YUBEL                         = 0x19d

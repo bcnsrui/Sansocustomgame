@@ -1,28 +1,36 @@
 --Utilities to be added to the core
-
---Raises the EVENT_CONFIRM event when a card is revealed (used by "Vanquish Soul Jiaolong")
---Raises the EVENT_TOHAND_CONFIRM event when a card in the hand is revealed (used by "Puppet King" and "Puppet Queen")
+Duel.Overlay=(function()
+	local oldf=Duel.Overlay
+	return function(c,g,autosend)
+		if autosend then
+			local sg
+			if type(g)=="Group" then
+				sg=Group.CreateGroup()
+				for tc in g:Iter() do
+					sg:Merge(tc:GetOverlayGroup())
+				end
+			else
+				sg=g:GetOverlayGroup()
+			end
+			Duel.SendtoGrave(sg,REASON_RULE)
+		end
+		return oldf(c,g)
+	end
+end)()
+--Raise the EVENT_TOHAND_CONFIRM event when a card in the hand is revealed (used by "Puppet King" and "Puppet Queen")
 Duel.ConfirmCards=(function()
 	local oldfunc=Duel.ConfirmCards
-	return function(player,reveal_group,reveal_player,reason,...)
-		local res=oldfunc(player,reveal_group,...)
-		reveal_player=reveal_player or 1-player
-		reason=reason or (Duel.IsChainSolving() and REASON_EFFECT or REASON_COST)
-		local triggering_eff=Duel.GetChainInfo(0,CHAININFO_TRIGGERING_EFFECT)
-		if type(reveal_group)=="Card" then reveal_group=Group.FromCards(reveal_group) end
-		for tc in reveal_group:Iter() do
-			Duel.RaiseSingleEvent(tc,EVENT_CONFIRM,triggering_eff,reason,reveal_player,reveal_player,0)
-		end
-		Duel.RaiseEvent(reveal_group,EVENT_CONFIRM,triggering_eff,reason,reveal_player,reveal_player,0)
-		if Duel.CheckEvent(EVENT_TO_HAND) then
-			local handg=Group.CreateGroup():Merge(reveal_group):Match(Card.IsLocation,nil,LOCATION_HAND)
-			if #handg>0 then
-				Duel.RaiseEvent(handg,EVENT_TOHAND_CONFIRM,triggering_eff,reason,reveal_player,reveal_player,0)
-			end
+	return function(tp,obj,...)
+		local res=oldfunc(tp,obj,...)
+		local handg=Group.CreateGroup():Merge(obj):Match(Card.IsLocation,nil,LOCATION_HAND)
+		if Duel.CheckEvent(EVENT_TO_HAND) and #handg>0 then
+			Duel.RaiseEvent(handg,EVENT_TOHAND_CONFIRM,nil,0,tp,tp,0)
 		end
 		return res
 	end
 end)()
+
+Duel.AnnounceNumberRange=Duel.AnnounceLevel
 
 --Remove counter from only 1 card if it is the only card with counter
 local p_rem=Duel.RemoveCounter
@@ -166,7 +174,7 @@ function Duel.CheckReleaseGroupCost(tp,f,minc,maxc,use_hand,check,ex,...)
 		maxc,use_hand,check,ex=minc,maxc,use_hand,check
 	end
 	if not ex then ex=Group.CreateGroup() end
-	local mg=Duel.GetReleaseGroup(tp,use_hand):Match(f or aux.TRUE,ex,table.unpack(params))
+	local mg=Duel.GetReleaseGroup(tp,use_hand):Match(f and f or aux.TRUE,ex,table.unpack(params))
 	local g,exg=mg:Split(Auxiliary.ReleaseCostFilter,nil,tp)
 	local specialchk=Auxiliary.MakeSpecialCheck(check,tp,exg,table.unpack(params))
 	local mustg=g:Match(function(c,tp)return c:IsHasEffect(EFFECT_EXTRA_RELEASE) and c:IsControler(1-tp)end,nil,tp)
@@ -175,7 +183,7 @@ function Duel.CheckReleaseGroupCost(tp,f,minc,maxc,use_hand,check,ex,...)
 end
 function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,check,ex,...)
 	if not ex then ex=Group.CreateGroup() end
-	local mg=Duel.GetReleaseGroup(tp,use_hand):Match(f or aux.TRUE,ex,...)
+	local mg=Duel.GetReleaseGroup(tp,use_hand):Match(f and f or aux.TRUE,ex,...)
 	local g,exg=mg:Split(Auxiliary.ReleaseCostFilter,nil,tp)
 	local specialchk=Auxiliary.MakeSpecialCheck(check,tp,exg,...)
 	local mustg=g:Match(function(c,tp)return c:IsHasEffect(EFFECT_EXTRA_RELEASE) and c:IsControler(1-tp)end,nil,tp)
@@ -186,7 +194,6 @@ function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,check,ex,...)
 		local cg=mg:Filter(Auxiliary.RelCheckRecursive,sg,tp,sg,mg,exg,mustg,#sg,minc,maxc,specialchk)
 		if #cg==0 then break end
 		cancel=Auxiliary.RelCheckGoal(tp,sg,exg,mustg,#sg,minc,maxc,specialchk)
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 		local tc=Group.SelectUnselect(cg,sg,tp,cancel,cancel,1,1)
 		if not tc then break end
 		if #mustg==0 or not mustg:IsContains(tc) then

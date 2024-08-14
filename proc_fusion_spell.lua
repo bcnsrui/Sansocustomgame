@@ -6,7 +6,7 @@
 --extraop		function called right before sending the monsters to the graveyard as material
 --gc			mandatory card or function returning a group to be used (for effects like Soprano)
 --stage2		function called after the monster has been summoned
---exactcount
+--exactcount	
 --location		location where to summon fusion monsters from (default LOCATION_EXTRA)
 --chkf			FUSPROC flags for the fusion summon
 --desc			summon effect description
@@ -37,7 +37,7 @@ Debug.ReloadFieldBegin=(function()
 				return Fusion.ExtraGroup and Fusion.ExtraGroup:IsContains(c)
 			end)
 			geff:SetValue(aux.TRUE)
-			Duel.RegisterEffect(geff,0)
+			Duel.RegisterEffect(geff,0)	
 		end
 	end
 )()
@@ -201,7 +201,7 @@ function(fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locati
 							if not extrafil then
 								local ret = {repl_function[1](e,tp,mg1)}
 								if ret[1] then
-									ret[1]:Match(matfilter,nil,e,tp,0)
+									ret[1]:Match(matfilter,nil)
 									Fusion.ExtraGroup=ret[1]:Filter(Card.IsCanBeFusionMaterial,nil,nil,value):Match(aux.NOT(Card.IsImmuneToEffect),nil,e)
 									mg1:Merge(ret[1])
 								end
@@ -211,7 +211,7 @@ function(fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locati
 								local ret = {extrafil(e,tp,mg1)}
 								local repl={repl_function[1](e,tp,mg1)}
 								if ret[1] then
-									repl[1]:Match(matfilter,nil,e,tp,0)
+									repl[1]:Match(matfilter,nil)
 									ret[1]:Merge(repl[1])
 									Fusion.ExtraGroup=ret[1]:Filter(Card.IsCanBeFusionMaterial,nil,nil,value):Match(aux.NOT(Card.IsImmuneToEffect),nil,e)
 									mg1:Merge(ret[1])
@@ -271,7 +271,7 @@ function(fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locati
 								Fusion.CheckAdditional=nil
 								Fusion.ExtraGroup=nil
 							end
-						end
+						end		
 					end
 					Fusion.CheckExact=nil
 					Fusion.CheckMin=nil
@@ -337,7 +337,7 @@ function (fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locat
 						if not extrafil then
 							local ret = {repl_function[1](e,tp,mg1)}
 							if ret[1] then
-								ret[1]:Match(matfilter,nil,e,tp,1)
+								ret[1]:Match(matfilter,nil)
 								Fusion.ExtraGroup=ret[1]:Filter(Card.IsCanBeFusionMaterial,nil,nil,value):Match(aux.NOT(Card.IsImmuneToEffect),nil,e)
 								mg1:Merge(ret[1])
 							end
@@ -347,7 +347,7 @@ function (fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locat
 							local ret = {extrafil(e,tp,mg1)}
 							local repl={repl_function[1](e,tp,mg1)}
 							if ret[1] then
-								repl[1]:Match(matfilter,nil,e,tp,1)
+								repl[1]:Match(matfilter,nil)
 								ret[1]:Merge(repl[1])
 								Fusion.ExtraGroup=ret[1]:Filter(Card.IsCanBeFusionMaterial,nil,nil,value):Match(aux.NOT(Card.IsImmuneToEffect),nil,e)
 								mg1:Merge(ret[1])
@@ -445,9 +445,7 @@ function (fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locat
 					if sel[1]==e then
 						Fusion.ExtraGroup=nil
 						backupmat=mat1:Clone()
-						if not notfusion then
-							tc:SetMaterial(mat1)
-						end
+						tc:SetMaterial(mat1)
 						--Checks for the case that the Fusion Summoning effect has an "extraop"
 						local extra_feff_mg=mat1:Filter(GetExtraMatEff,nil,tc)
 						if #extra_feff_mg>0 and extraop then
@@ -508,7 +506,6 @@ function (fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locat
 							local extra_feff
 							if #extra_feff_mg>0 then extra_feff=GetExtraMatEff(extra_feff_mg:GetFirst(),tc) end
 							if #normal_mg>0 then
-								normal_mg=normal_mg:AddMaximumCheck()
 								Duel.SendtoGrave(normal_mg,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 							end
 							if extra_feff then
@@ -516,7 +513,6 @@ function (fusfilter,matfilter,extrafil,extraop,gc2,stage2,exactcount,value,locat
 								if extra_feff_op then
 									extra_feff_op(e,tc,tp,extra_feff_mg)
 								else
-									extra_feff_mg=extra_feff_mg:AddMaximumCheck()
 									Duel.SendtoGrave(extra_feff_mg,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 								end
 								--If the EFFECT_EXTRA_FUSION_MATERIAL effect is OPT
