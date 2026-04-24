@@ -1,19 +1,3 @@
--- Cookie Run Braverse core preload (Sansocustomgame runtime path)
-if Duel and Duel.LoadScript and not Cookie2 then
-	pcall(Duel.LoadScript,"CS_init.lua")
-	pcall(Duel.LoadScript,"CS2_init.lua")
-	if not Cookie2 then pcall(Duel.LoadScript,"expansions/script/CS_init.lua") end
-	if not Cookie2 then
-		pcall(Duel.LoadScript,"expansions/script/CookieMainCharacter.lua")
-		pcall(Duel.LoadScript,"expansions/script/CookieCharacter.lua")
-		pcall(Duel.LoadScript,"expansions/script/CookieCommonEff.lua")
-		pcall(Duel.LoadScript,"expansions/script/CookieCommonEff2.lua")
-		pcall(Duel.LoadScript,"expansions/script/CookieCommonEff3.lua")
-		pcall(Duel.LoadScript,"expansions/script/CookieTrigger.lua")
-		pcall(Duel.LoadScript,"expansions/script/Cookieeffecttype.lua")
-	end
-end
-
 Auxiliary={}
 aux=Auxiliary
 

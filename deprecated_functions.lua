@@ -1,10 +1,3 @@
--- Cookie Run Braverse core preload fallback
-if Duel and Duel.LoadScript and not Cookie2 then
-	pcall(Duel.LoadScript,"CS_init.lua")
-	pcall(Duel.LoadScript,"CS2_init.lua")
-	if not Cookie2 then pcall(Duel.LoadScript,"expansions/script/CS_init.lua") end
-end
-
 if not load then
 	Duel.LoadScript("CS_init.lua")
 	Duel.LoadScript("CS2_init.lua")
